@@ -1,0 +1,7 @@
+contig_102
+contig_104
+contig_140
+contig_141
+contig_22
+contig_32
+contig_73
