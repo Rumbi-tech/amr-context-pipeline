@@ -1,0 +1,6 @@
+contig_100
+contig_19
+contig_21
+contig_32
+contig_83
+contig_99

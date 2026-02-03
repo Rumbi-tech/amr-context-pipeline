@@ -1,0 +1,2 @@
+qseqid	sseqid	qlen	slen	qstart	qend	sstart	send	length	mismatch	pident	qcovhsp	qcovs	sstrand	evalue	bitscore	biomarker
+NC_003350_00078|MPF_F	contig_6	900	31302	412	872	17520	18908	463	87	80.778	51.0	82.0	plus	0.0	780	mate-pair-formation
