@@ -1,0 +1,89 @@
+############################################
+# 🔬 AMR Context Pipeline – .gitignore
+############################################
+
+# ------------------------------------------
+# Raw sequencing data (DO NOT COMMIT)
+# ------------------------------------------
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+
+# ------------------------------------------
+# Large databases (installed externally)
+# ------------------------------------------
+localDB/
+card.json
+card.json.gz
+rgi_db/
+mob_db/
+*.dmnd
+*.pin
+*.phr
+*.psq
+
+# ------------------------------------------
+# Flye intermediate files (keep final only)
+# ------------------------------------------
+00-assembly/
+10-consensus/
+20-repeat/
+30-contigger/
+40-polishing/
+flye.log
+params.json
+*.gfa
+*.gv
+*.bam
+*.csi
+*.stderr
+*.fai
+
+# ------------------------------------------
+# Temporary / runtime files
+# ------------------------------------------
+__pycache__/
+*.tmp
+*.temp
+*.log
+*.err
+*.out
+work/
+.nxf*
+.nextflow*
+.nextflow.log*
+
+# ------------------------------------------
+# HPC / SLURM junk
+# ------------------------------------------
+slurm-*.out
+slurm-*.err
+*.sbatch
+
+# ------------------------------------------
+# OS / editor noise
+# ------------------------------------------
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
+
+# ------------------------------------------
+# Python environments
+# ------------------------------------------
+micromamba/
+miniconda3/
+conda-envs/
+
+# ------------------------------------------
+# Keep ONLY cleaned results
+# ------------------------------------------
+!runs/**/flye_final/assembly.fasta
+!runs/**/rgi/*.txt
+!runs/**/rgi/*.json
+!runs/**/mob/*.txt
+!runs/**/mob/*.fasta
+!runs/**/summary/**
+
