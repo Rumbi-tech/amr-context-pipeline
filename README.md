@@ -1,5 +1,12 @@
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Workflow](https://img.shields.io/badge/workflow-bioinformatics-green)
+![AMR](https://img.shields.io/badge/focus-AMR-red)
+
+# AMR Context Pipeline (RGI + MOB-suite)
+
+
 git add README.md
-git commit -m "Finalize project README with AMR–plasmid context workflow"
+git commit -m "Finalize project README with AMR-plasmid context workflow"
 # AMR Context Pipeline 
 
 ## Project Abstract
