@@ -1,33 +1,33 @@
-# Outputs / runs
-runs/
-results/
-work/
-nx_work/
-.nxf/
-
-# Databases (often huge)
-localDB/
-rgi_db/
-database.kraken/
-database250mers.kraken/
-database250mers.kmer_distrib/
-datasets/
-
-# Logs / job outputs
-logs/
-*.out
-*.err
-*.log
-*.sbatch
-
-# OS/editor junk
-.DS_Store
-*.swp
-
-# Validation outputs (generated)
-validation/outputs/
+# Data + large downloads
+data/
+*.gz
+*.sra
 *.fastq
 *.fq
-*.fna
-*.faa
-*.sra
+
+# Assemblies / contigs (keep only if you intentionally track them)
+*.fasta
+*.fa
+contig_*.fasta
+
+# Temporary/intermediate artifacts from tools
+*.temp*
+*.db.*
+*.xml
+*.ndb
+*.nhr
+*.nin
+*.nsq
+*.ntf
+*.nto
+*.not
+*.njs
+*.json
+
+# Logs / checkpoints
+*.log
+log/
+.checkpoints*
+.done
+work/
+.nextflow*
