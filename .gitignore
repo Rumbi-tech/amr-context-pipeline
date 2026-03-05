@@ -31,3 +31,5 @@ log/
 .done
 work/
 .nextflow*
+runs/
+reference/
