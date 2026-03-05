@@ -97,7 +97,7 @@ barcode04 6 0 6 0
 
 ---
 
-## Outputs (Clean GitHub Version)
+## Outputs 
 
 For each barcode, the repository retains a **compact, shareable output set**:
 
