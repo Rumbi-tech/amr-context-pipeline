@@ -2,7 +2,7 @@
 ![Workflow](https://img.shields.io/badge/workflow-bioinformatics-green)
 ![AMR](https://img.shields.io/badge/focus-AMR-red)
 
-# AMR Context Pipeline (RGI + MOB-suite)
+# AMR Context Pipeline 
 
 
 git add README.md
@@ -134,7 +134,26 @@ The following are excluded via `.gitignore` to keep the repository lightweight a
 These resources are **recreated at runtime** and should not be version-controlled.
 
 ---
+## Pipeline Validation
 
+The AMR Context Pipeline was validated using a controlled plasmid-positive dataset.  
+Reference plasmid sequences were downloaded from the NCBI RefSeq plasmid database and used to simulate paired-end Illumina reads.
+
+The simulated dataset was processed through the full workflow:
+
+ART → MEGAHIT → Prodigal → RGI/CARD → MOB-suite → ARG–plasmid intersection
+
+Results from the validation experiment:
+
+- Assembly contigs: 37
+- ARG hits: 23
+- Plasmid-associated ARG contigs: 14
+
+Detected ARG families included CTX-M-15 β-lactamase, aminoglycoside-modifying enzymes (aadA, AAC, ANT), sulfonamide resistance gene sul1, tetracycline resistance gene tet(45), disinfectant resistance gene qacG, and dfrA12.
+
+This validation demonstrates that the pipeline can successfully recover plasmid-associated antimicrobial resistance genes from sequencing data.
+
+See: `validation/README_validation.md`
 ## Reproducibility and Future Work
 
 - Designed for **HPC environments**
