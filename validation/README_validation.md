@@ -2,14 +2,20 @@
 
 This folder contains a controlled validation experiment showing that the AMR Context Pipeline can detect plasmid-associated antimicrobial resistance genes (ARGs).
 
-## What we did
-- Downloaded reference plasmid sequences from the NCBI RefSeq plasmid release
-- Identified ARG-positive plasmids (Prodigal -> RGI/CARD)
-- Simulated Illumina paired-end reads (ART)
-- Assembled reads (MEGAHIT)
-- Detected ARGs (Prodigal -> RGI/CARD)
-- Classified plasmid contigs (MOB-suite)
-- Intersected ARG-bearing contigs with plasmid-classified contigs
+## Methodology
+RefSeq plasmids (Downloaded reference plasmid sequences from the NCBI RefSeq plasmid release)
+      ↓
+ARG detection (RGI) (Identified ARG-positive plasmids )
+      ↓
+Simulate reads (ART) (Identified ARG-positive plasmids)
+      ↓
+Assembly (MEGAHIT) (Assembled reads)
+      ↓
+ARG detection (RGI) 
+      ↓
+Plasmid classification (MOB-suite) 
+      ↓
+ARG–plasmid intersection (Intersected ARG-bearing contigs with plasmid-classified contigs)
 
 ## Key results (this run)
 - Assembly contigs: **37**
