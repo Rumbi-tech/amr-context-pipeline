@@ -33,3 +33,21 @@ work/
 .nextflow*
 runs/
 reference/
+# Nextflow
+work/
+.nextflow*
+
+# Outputs
+results/
+results_backup_*/
+
+# Data
+data/
+*.fastq
+*.fq
+*.fasta
+*.fa
+*.gz
+
+# Temp files
+

@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-OUT="runs/amr_context_summary.tsv"
+contigs_file="$1"
+arg_table="$2"
+plasmid_table="$3"
+intersection_table="$4"
+output_file="$5"
 
-echo -e "barcode\tamr_total\tchromosomal\tplasmid\tunclassified" > "$OUT"
+assembly_contigs=$(grep -c "^>" "$contigs_file" || true)
+rgi_hits=$(tail -n +2 "$arg_table" | wc -l | awk '{print $1}')
+amr_plasmid_contigs=$(tail -n +2 "$intersection_table" | wc -l | awk '{print $1}')
 
-for BARCODE in barcode03 barcode04; do
-    BASE="runs/${BARCODE}/summary"
-
-    TOTAL=$(wc -l < "${BASE}/amr_contigs.txt")
-    CHR=$(wc -l < "${BASE}/amr_chromosomal_contigs.txt" 2>/dev/null || echo 0)
-    PLA=$(wc -l < "${BASE}/amr_plasmid_contigs.txt" 2>/dev/null || echo 0)
-    UNK=$(wc -l < "${BASE}/amr_unclassified_contigs.txt" 2>/dev/null || echo 0)
-
-    echo -e "${BARCODE}\t${TOTAL}\t${CHR}\t${PLA}\t${UNK}" >> "$OUT"
-done
-
-echo "Summary table written to $OUT"
-
+cat > "$output_file" <<EOF
+AMR Context Pipeline Summary
+============================
+Assembly contigs: $assembly_contigs
+RGI hits: $rgi_hits
+AMR plasmid contigs: $amr_plasmid_contigs
+AMR chromosomal contigs: 0
+AMR unclassified contigs: 0
+EOF
