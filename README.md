@@ -1,181 +1,124 @@
-![License](https://img.shields.io/badge/license-MIT-blue)
-![Workflow](https://img.shields.io/badge/workflow-bioinformatics-green)
-![AMR](https://img.shields.io/badge/focus-AMR-red)
+# AMR Context Pipeline
 
-# AMR Context Pipeline 
-
-
-git add README.md
-git commit -m "Finalize project README with AMR-plasmid context workflow"
-# AMR Context Pipeline 
-
-## Project Abstract
-
-Antimicrobial resistant (AMR) bacteria are widespread in natural environments and pose a growing threat to human and ecosystem health. AMR can arise through two primary mechanisms: (1) de novo mutations in previously susceptible bacterial genomes and (2) horizontal transfer of AMR genes between species, often via mobile genetic elements such as plasmids.  
-
-This project aims to develop a comprehensive bioinformatics pipeline to evaluate the relative importance of these mechanisms within bacterial communities. Using a combination of long-read and short-read metagenomic sequencing data, the pipeline assembles and aligns metagenomes from raw reads, identifies AMR genes using curated resistance databases, and determines the genomic context of these genes, distinguishing chromosomal integration from mobile genetic element association.  
-
-The pipeline is first validated using simulated datasets to assess performance and accuracy and is subsequently applied to metagenomic data from environmental bacterial communities. By the end of the project, the goal is to produce a reproducible and interpretable workflow capable of linking AMR genes to their genomic context, thereby improving understanding of AMR emergence and dissemination in environmental systems.
+A reproducible **Nextflow DSL2 bioinformatics pipeline** for detecting antimicrobial resistance (AMR) genes and determining their genomic context (plasmid vs chromosomal) from metagenomic sequencing data.
 
 ---
 
-## Pipeline Overview
+## 🔬 Abstract
 
-This repository contains a reproducible workflow that:
+Antimicrobial resistant (AMR) bacteria are widespread in natural environments and pose a growing threat to human and ecosystem health. AMR can arise through two primary mechanisms:  
+1) *De novo* mutations in previously susceptible bacterial genomes  
+2) Horizontal transfer of AMR genes between species, often mediated by mobile genetic elements such as plasmids  
 
-1. **Assembles long-read metagenomic data** into contigs using **Flye**
-2. **Annotates AMR genes** on assembled contigs using **RGI (CARD database)**
-3. **Classifies contigs** as plasmid-associated, chromosomal, or unclassified using **MOB-suite (mob_recon)**
-4. **Resolves AMR genomic context** by intersecting:
-   - AMR-positive contigs (RGI)
-   - Contig mobility classifications (MOB-suite)
-5. **Summarizes and visualizes** AMR results with tables and publication-ready figures
+This project presents a comprehensive bioinformatics pipeline designed to evaluate the relative importance of these mechanisms within bacterial communities. Using a combination of long-read and short-read metagenomic sequencing data, the pipeline assembles metagenomes from raw reads, identifies AMR genes using curated resistance databases, and determines the genomic context of these genes, distinguishing chromosomal integration from mobile genetic element association.  
 
-### Important distinction
-- **RGI** answers: *Which contigs contain AMR genes?*
-- **MOB-suite** answers: *Are contigs plasmid-associated or chromosomal?*
-- **This pipeline integrates both** to infer **AMR genomic context**
+The pipeline is first validated using simulated datasets to assess performance and accuracy and is subsequently applied to environmental metagenomic samples. The resulting workflow enables reproducible and interpretable analysis linking AMR genes to their genomic context, thereby improving understanding of AMR emergence and dissemination in environmental systems.  
+
+This project is conducted under the supervision of **Professor Susan Bailey**.
 
 ---
 
-## Tools Used
+## 🎯 Objective
 
-| Step | Tool | Purpose |
-|-----|------|--------|
-| Assembly | Flye | Long-read metagenome assembly |
-| AMR annotation | RGI (CARD) | Detect AMR genes |
-| Mobility classification | MOB-suite (mob_recon) | Plasmid vs chromosome |
-| Context resolution | Custom bash script | AMR-plasmid intersection |
-| Visualization | Python | Summary figures |
+To determine whether antimicrobial resistance genes are:
+- Chromosomally encoded (*de novo* mutation-driven)
+- Plasmid-associated (horizontal gene transfer)
 
 ---
 
-## AMR-Plasmid Intersection (Core Contribution)
+## ⚙️ Workflow Overview
 
-A custom script resolves the genomic context of AMR genes by intersecting RGI and MOB-suite outputs:
-
-**Script**
-scripts/amr_plasmid_intersection.sh
-
-**Inputs**
-- `runs/<barcode>/rgi/*.rgi.txt`
-- `runs/<barcode>/mob/contig_report.txt`
-- `runs/<barcode>/mob/chromosome.fasta`
-
-**Outputs**
-- `amr_plasmid_contigs.txt`
-- `amr_chromosomal_contigs.txt`
-- `amr_unclassified_contigs.txt`
-- `amr_contig_context.tsv`
-- `amr_context_counts.tsv`
-
-This step determines whether AMR genes are:
-- Chromosomally encoded (de novo mutation signal)
-- Plasmid-associated (horizontal gene transfer signal)
+1. **Read Simulation (optional)** – ART  
+2. **Assembly** – MEGAHIT / Flye  
+3. **Gene Prediction** – Prodigal  
+4. **AMR Detection** – RGI (CARD database)  
+5. **Plasmid Classification** – MOB-suite  
+6. **AMR-Plasmid Intersection Analysis**  
+7. **Summary Report Generation**
 
 ---
 
-## Summary Table (Counts per Barcode)
-
-A global summary table aggregates AMR context counts across samples:
-
-**File**
-runs/amr_context_summary.tsv
-
-**Columns**
-- `barcode`
-- `total_amr_contigs`
-- `amr_plasmid_contigs`
-- `amr_chromosomal_contigs`
-- `amr_unclassified_contigs`
-
-**Example**
-
-barcode total_amr_contigs amr_plasmid_contigs amr_chromosomal_contigs amr_unclassified_contigs
-barcode03 7 0 7 0
-barcode04 6 0 6 0
+## 🧱 Pipeline Structure
+├── main.nf
+├── nextflow.config
+├── modules/
+├── workflows/
+├── scripts/
+├── validation/
 
 ---
 
-## Outputs 
+## 🧠 Tools and Technologies
 
-For each barcode, the repository retains a **compact, shareable output set**:
+- Nextflow DSL2  
+- MEGAHIT  
+- Flye  
+- Prodigal  
+- RGI (CARD database)  
+- MOB-suite  
+- ART (simulation)  
 
-runs/<barcode>/
-├── flye_final/
-│ └── assembly.fasta
-├── rgi/
-│ ├── <barcode>_rgi.txt
-│ └── <barcode>_rgi.json
-├── mob/
-│ ├── contig_report.txt
-│ └── mge.report.txt
-└── summary/
-├── amr_by_drug_class.tsv
-├── amr_by_mechanism.tsv
-├── amr_by_molecule_type.tsv
-├── amr_contigs.fasta
-├── amr_contig_context.tsv
-├── amr_context_counts.tsv
-└── figures/
+---
+
+## 🚀 Usage
+
+### Clone the repository
+
+```bash
+git clone https://github.com/Rumbi-tech/amr-context-pipeline.git
+cd amr-context-pipeline
 
 
 ---
 
-## What Is *Not* Tracked (and Why)
+Run the pipeline
+nextflow run main.nf
 
-The following are excluded via `.gitignore` to keep the repository lightweight and reproducible:
+📊 Validation Results
 
-- Raw sequencing reads (`*.fastq.gz`)
-- Intermediate Flye directories (`00-assembly/`, `10-consensus/`, etc.)
-- Large reference databases (CARD, MOB-suite DBs)
-- Temporary and log files
+The pipeline was validated using a RefSeq plasmid dataset:
 
-These resources are **recreated at runtime** and should not be version-controlled.
+Metric	Value
+Assembly contigs	591
+RGI hits	28
+AMR plasmid contigs	24
+AMR chromosomal contigs	0
 
----
-## Pipeline Validation
+These results confirm successful detection of plasmid-associated AMR genes, demonstrating correct pipeline functionality.
 
-The AMR Context Pipeline was validated using a controlled plasmid-positive dataset.  
-Reference plasmid sequences were downloaded from the NCBI RefSeq plasmid database and used to simulate paired-end Illumina reads.
+🌍 Scientific Significance
 
-The simulated dataset was processed through the full workflow:
+This pipeline provides a framework for:
 
-ART → MEGAHIT → Prodigal → RGI/CARD → MOB-suite → ARG–plasmid intersection
+Distinguishing AMR origin mechanisms
 
-Results from the validation experiment:
+Identifying horizontal gene transfer events
 
-- Assembly contigs: 37
-- ARG hits: 23
-- Plasmid-associated ARG contigs: 14
+Studying AMR dissemination in environmental systems
 
-Detected ARG families included CTX-M-15 β-lactamase, aminoglycoside-modifying enzymes (aadA, AAC, ANT), sulfonamide resistance gene sul1, tetracycline resistance gene tet(45), disinfectant resistance gene qacG, and dfrA12.
+It supports research in:
 
-This validation demonstrates that the pipeline can successfully recover plasmid-associated antimicrobial resistance genes from sequencing data.
+Environmental microbiology
 
-See: `validation/README_validation.md`
-## Reproducibility and Future Work
+Public health
 
-- Designed for **HPC environments**
-- Conda/Mamba environments provided
-- Directory structure is **Nextflow-ready**
-- Future work includes:
-  - Full Nextflow implementation
-  - Automated multi-sample execution
-  - Integration of short-read polishing
-  - Quantitative comparison of HGT vs mutation signals
+One Health
 
----
+🔁 Reproducibility
 
-## Author
+Implemented in Nextflow DSL2, ensuring:
 
-**Rumbidzai N. Mushamba**  
-Applied Data Science  
-Clarkson University
+Modular workflow design
 
+Scalability on HPC systems
 
+Full reproducibility of analyses
 
+👩🏽‍💻 Author
 
+Rumbidzai Mushamba
+M.S. Applied Data Science – Clarkson University
 
+📄 License
 
-
+MIT License
